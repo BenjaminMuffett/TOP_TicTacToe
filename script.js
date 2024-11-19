@@ -10,4 +10,36 @@ function Gameboard() {
             board[i].push(Cell());
         }
     }
+
+    const getBoard = () => board;
+
+    const assignValue = (row, column, player) => {
+        if (board[row][column] === 0) {
+            board[row][column].addValue(player);
+        } else {
+            return;
+        }
+    }
+
+    const printBoard = () => {
+        boardWithValues = board.map((row) => row.map((cell) => cell.getValue()))
+        console.log(boardWithValues);
+    }
+
+    return {getBoard, assignValue, printBoard};
+}
+
+function Cell() {
+    let value = 0;
+
+    addValue = (player) => {
+        value = player;
+    };
+
+    const getValue = () => value;
+
+    return {
+        addValue, 
+        getValue
+    };
 }
