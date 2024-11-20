@@ -80,8 +80,9 @@ function GameController(
         // tie - no values of 0 left && no three in a row
         // winner full row/col of same value or either diagonal [0,0][1,1][2,2] || [0,2][1,1][2,0] - 8 total
         // let winCheck = (list) => list.every(item => item === list[0]); 
-        let checkBoard = board.getBoard().map((row) => row.map((cell) => cell.getValue()))
-        console.log(checkBoard);
+        let checkBoard = board.getBoard().map((row) => row.map((cell) => cell.getValue()));
+
+        console.log(checkBoard[row].every(value => value === checkBoard[row][0])); //win logic for horizontal
         switchPlayerTurn();
         printNewRound();
     };
