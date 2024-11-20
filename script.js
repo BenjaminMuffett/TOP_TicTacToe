@@ -18,12 +18,11 @@ function Gameboard() {
             board[row][column].addValue(player);
         } else {
             console.log('Has already been taken.');
-            console.log(row, column, player);
         }
     }
 
     const printBoard = () => {
-        boardWithValues = board.map((row) => row.map((cell) => cell.getValue()))
+        boardWithValues = board.map((row) => row.map((cell) => cell.getValue()));
         console.log(boardWithValues);
     }
 
@@ -77,10 +76,22 @@ function GameController(
     const playRound = (row, column) => {
         console.log(`${getActivePlayer().name} places ${getActivePlayer().value} in ${row}, ${column}.`);
         board.assignValue(row, column, getActivePlayer().value);
-
+        // winner or tie check
+        // tie - no values of 0 left && no three in a row
+        // winner full row/col of same value or either diagonal [0,0][1,1][2,2] || [0,2][1,1][2,0] - 8 total
+        // let winCheck = (list) => list.every(item => item === list[0]); 
+        let checkBoard = board.getBoard().map((row) => row.map((cell) => cell.getValue()))
+        console.log(checkBoard);
         switchPlayerTurn();
         printNewRound();
     };
+
+    const gameStatus = () => {
+        let emptyValue = 0;
+        if (board.every > emptyValue) {
+            console.log('Game is a tie.')
+        }
+    }
 
     printNewRound();
 
