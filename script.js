@@ -82,7 +82,14 @@ function GameController(
         // let winCheck = (list) => list.every(item => item === list[0]); 
         let checkBoard = board.getBoard().map((row) => row.map((cell) => cell.getValue()));
 
-        console.log(checkBoard[row].every(value => value === checkBoard[row][0])); //win logic for horizontal
+        // console.log(checkBoard[row].every(value => value === checkBoard[row][0]));
+        //win logic for horizontal
+
+        horizontalCheck = () => {
+            if (checkBoard[row].every(value => value === checkBoard[row][0])) {
+                console.log(`${getActivePlayer().name} is the winner. Horizontal win.`)
+            }
+        }
 
         verticalCheck = () => {
             let inARow = 0;
@@ -92,7 +99,7 @@ function GameController(
                 }
             }
             if (inARow == 3) {
-                console.log(`${getActivePlayer().name} is the winner.`)
+                console.log(`${getActivePlayer().name} is the winner. Vertical Win.`)
             }
         };
 
@@ -102,6 +109,8 @@ function GameController(
                 console.log(`${getActivePlayer().name} is the winner. Diagonal win.`)
             }
         }
+
+        horizontalCheck();
         diagonalCheck();
         verticalCheck();
         switchPlayerTurn();
