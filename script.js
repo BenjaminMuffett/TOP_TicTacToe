@@ -83,6 +83,7 @@ function GameController(
         let checkBoard = board.getBoard().map((row) => row.map((cell) => cell.getValue()));
 
         console.log(checkBoard[row].every(value => value === checkBoard[row][0])); //win logic for horizontal
+
         verticalCheck = () => {
             let inARow = 0;
             for (let i = 0; i < 3; i++) {
@@ -94,6 +95,14 @@ function GameController(
                 console.log(`${getActivePlayer().name} is the winner.`)
             }
         };
+
+        diagonalCheck = () => {
+            if (checkBoard[0][0] && checkBoard[1][1] && checkBoard[2][2] == getActivePlayer().value ||
+            checkBoard[0][2] && checkBoard[1][1] && checkBoard[2][0] == getActivePlayer().value) {
+                console.log(`${getActivePlayer().name} is the winner. Diagonal win.`)
+            }
+        }
+        diagonalCheck();
         verticalCheck();
         switchPlayerTurn();
         printNewRound();
