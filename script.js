@@ -81,13 +81,15 @@ function GameController(
         // winner full row/col of same value or either diagonal [0,0][1,1][2,2] || [0,2][1,1][2,0] - 8 total
         // let winCheck = (list) => list.every(item => item === list[0]); 
         let checkBoard = board.getBoard().map((row) => row.map((cell) => cell.getValue()));
+        let winStatus = false;
 
         // console.log(checkBoard[row].every(value => value === checkBoard[row][0]));
         //win logic for horizontal
 
         horizontalCheck = () => {
             if (checkBoard[row].every(value => value === checkBoard[row][0])) {
-                console.log(`${getActivePlayer().name} is the winner. Horizontal win.`)
+                console.log(`${getActivePlayer().name} is the winner. Horizontal win.`);
+                winStatus = true;
             }
         }
 
@@ -100,29 +102,36 @@ function GameController(
             }
             if (inARow == 3) {
                 console.log(`${getActivePlayer().name} is the winner. Vertical Win.`)
+                winStatus = true;
             }
         };
 
         diagonalCheck = () => {
-            if (checkBoard[0][0] && checkBoard[1][1] && checkBoard[2][2] == getActivePlayer().value ||
-            checkBoard[0][2] && checkBoard[1][1] && checkBoard[2][0] == getActivePlayer().value) {
-                console.log(`${getActivePlayer().name} is the winner. Diagonal win.`)
+            if (checkBoard[0][0] == getActivePlayer().value && checkBoard[1][1] == getActivePlayer().value
+            && checkBoard[2][2] == getActivePlayer().value ||
+            checkBoard[0][2] == getActivePlayer().value && checkBoard[1][1] == getActivePlayer().value
+            && checkBoard[2][0] == getActivePlayer().value) {
+                console.log(`${getActivePlayer().name} is the winner. Diagonal win.`);
+                winStatus = true;
             }
+        }
+
+        tieCheck = () => {
+            let emptyValue = 0;
+            if (checkBoard.every(value => value >emptyValue) && winStatus == false) {
+                console.log('Game ends in a draw.')
+            }
+
         }
 
         horizontalCheck();
         diagonalCheck();
         verticalCheck();
+        tieCheck();
         switchPlayerTurn();
         printNewRound();
     };
 
-    const gameStatus = () => {
-        let emptyValue = 0;
-        if (board.every > emptyValue) {
-            console.log('Game is a tie.')
-        }
-    }
 
     printNewRound();
 
