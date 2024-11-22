@@ -1,0 +1,25 @@
+.board {
+    height: 600px;
+    width: 600px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    background-color: rebeccapurple;
+    gap: 5px;
+    margin-inline: auto;
+
+}
+
+.board button {
+    border: 2px black solid;
+    border-radius: 3px;
+    color: white;
+    background-color: violet;
+}
+
+.turn {
+    font-size: 30px;
+    max-width: fit-content;
+    margin-inline: auto;
+    
+}
