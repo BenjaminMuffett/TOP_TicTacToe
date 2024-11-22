@@ -149,15 +149,14 @@ function ScreenController() {
         playerTurnDiv.textContent = `${currentPlayer.name}'s turn.`;
 
         // render each square grid to the DOM
-        currentBoard.forEach(row => {
+        currentBoard.forEach((row, idx) => {
             row.forEach((cell, index) => {
                 const cellButton =document.createElement('button');
                 cellButton.classList.add('cell');
                 cellButton.dataset.column = index;
-                cellButton.dataset.row = row;
+                cellButton.dataset.row = idx;
                 cellButton.textContent = cell.getValue();
                 boardDiv.appendChild(cellButton);
-
             })
             
         });
