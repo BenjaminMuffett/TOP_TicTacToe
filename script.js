@@ -118,7 +118,7 @@ function GameController(
 
         tieCheck = () => {
             let emptyValue = 0;
-            if (checkBoard.every(value => value >emptyValue) && winStatus == false) {
+            if (checkBoard.every(row => row.every(value =>value > emptyValue )) && winStatus == false) {
                 console.log('Game ends in a draw.')
             }
 
