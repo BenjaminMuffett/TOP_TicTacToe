@@ -14,7 +14,7 @@ function Gameboard() {
     const getBoard = () => board;
 
     const assignValue = (row, column, player) => {
-        if (board[row][column].getValue() === 0) {
+        if (board[row][column].getValue() === '') {
             board[row][column].addValue(player);
         } else {
             console.log('Has already been taken.');
@@ -31,7 +31,7 @@ function Gameboard() {
 }
 
 function Cell() {
-    let value = 0;
+    let value = '';
 
     addValue = (player) => {
         value = player;
@@ -54,11 +54,11 @@ function GameController(
     const players = [
         {
             name: playerOneName,
-            value: 1
+            value: 'X'
         },
         {
             name: playerTwoName,
-            value: 2
+            value: 'O'
         }
     ];
 
@@ -114,7 +114,7 @@ function GameController(
         }
 
         tieCheck = () => {
-            let emptyValue = 0;
+            let emptyValue = '';
             if (checkBoard.every(row => row.every(value =>value > emptyValue )) && winStatus == false) {
                 console.log('Game ends in a draw.')
                 return winStatus = false;
@@ -155,7 +155,7 @@ function GameController(
 }
 
 function ScreenController() {
-    const game = GameController();
+    const game = GameController('Bill', 'Kat');
     const playerTurnDiv = document.querySelector('.turn');
     const boardDiv = document.querySelector('.board');
     const resultsDiv = document.querySelector('.results');
