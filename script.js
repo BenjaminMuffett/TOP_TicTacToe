@@ -18,6 +18,7 @@ function Gameboard() {
             board[row][column].addValue(player);
         } else {
             console.log('Has already been taken.');
+            throw new Error('Stop player change')
         }
     }
 
@@ -73,16 +74,19 @@ function GameController(
         console.log(`${getActivePlayer().name}'s turn.`);
     };
 
+    let winStatus ='';
+
+    const getStatus = () => winStatus;
+
     const playRound = (row, column) => {
         console.log(`${getActivePlayer().name} places ${getActivePlayer().value} in ${row}, ${column}.`);
         board.assignValue(row, column, getActivePlayer().value)
         let checkBoard = board.getBoard().map((row) => row.map((cell) => cell.getValue()));
-        let winStatus = false;
 
         horizontalCheck = () => {
             if (checkBoard[row].every(value => value === checkBoard[row][0])) {
                 console.log(`${getActivePlayer().name} is the winner. Horizontal win.`);
-                winStatus = true;
+                return winStatus = true;
             }
         }
 
@@ -95,7 +99,7 @@ function GameController(
             }
             if (inARow == 3) {
                 console.log(`${getActivePlayer().name} is the winner. Vertical Win.`)
-                winStatus = true;
+                return winStatus = true;
             }
         };
 
@@ -105,7 +109,7 @@ function GameController(
             checkBoard[0][2] == getActivePlayer().value && checkBoard[1][1] == getActivePlayer().value
             && checkBoard[2][0] == getActivePlayer().value) {
                 console.log(`${getActivePlayer().name} is the winner. Diagonal win.`);
-                winStatus = true;
+                return winStatus = true;
             }
         }
 
@@ -113,17 +117,31 @@ function GameController(
             let emptyValue = 0;
             if (checkBoard.every(row => row.every(value =>value > emptyValue )) && winStatus == false) {
                 console.log('Game ends in a draw.')
+                return winStatus = false;
             }
 
         }
 
-        horizontalCheck();
-        diagonalCheck();
-        verticalCheck();
-        tieCheck();
-        switchPlayerTurn();
-        printNewRound();
+        const result = () => {
+            horizontalCheck();
+            diagonalCheck();
+            verticalCheck();
+            tieCheck();
+        }
+
+        // horizontalCheck();
+        // diagonalCheck();
+        // verticalCheck();
+        // tieCheck();
+        result();
+        if (winStatus == '') {
+            switchPlayerTurn();
+            printNewRound();
+        };
+        
+        
     };
+
 
 
     printNewRound();
@@ -131,7 +149,8 @@ function GameController(
     return {
         playRound,
         getActivePlayer,
-        getBoard : board.getBoard
+        getBoard : board.getBoard,
+        getStatus
     };
 }
 
@@ -139,6 +158,7 @@ function ScreenController() {
     const game = GameController();
     const playerTurnDiv = document.querySelector('.turn');
     const boardDiv = document.querySelector('.board');
+    const resultsDiv = document.querySelector('.results');
 
     const updateScreen = () => {
         boardDiv.textContent = '';
@@ -160,15 +180,25 @@ function ScreenController() {
             })
             
         });
+        const currentStatus = game.getStatus();
+        if (currentStatus) {
+            resultsDiv.textContent = `${currentPlayer.name} wins!`;
+        } else if (currentStatus === false) {
+            resultsDiv.textContent ='Game ends in a draw.';
+        };
+        
     }
 
     function clickHandlerBoard(e) {
         const selectedRow = e.target.dataset.row;
         const selectedColumn =e.target.dataset.column;
+        const currentStatus = game.getStatus();
+        if (currentStatus === '') {
+            game.playRound(selectedRow,selectedColumn);
+            updateScreen();
+        }
 
-
-        game.playRound(selectedRow,selectedColumn);
-        updateScreen();
+        
     }
 
     boardDiv.addEventListener('click', clickHandlerBoard);

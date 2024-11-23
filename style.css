@@ -15,9 +15,17 @@
     border-radius: 3px;
     color: white;
     background-color: violet;
+    font-size: 40px;
 }
 
 .turn {
+    font-size: 30px;
+    max-width: fit-content;
+    margin-inline: auto;
+    
+}
+
+.results {
     font-size: 30px;
     max-width: fit-content;
     margin-inline: auto;
