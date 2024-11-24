@@ -31,3 +31,11 @@
     margin-inline: auto;
     
 }
+
+.startBtn,
+.resetBtn {
+    padding: 10px 20px;
+    border-radius: 3px;
+    border: rebeccapurple solid 1px;
+    background-color: rgb(195, 177, 225);
+}

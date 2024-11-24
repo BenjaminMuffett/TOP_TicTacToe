@@ -46,8 +46,8 @@ function Cell() {
 }
 
 function GameController(
-    playerOneName = 'P1',
-    playerTwoName = 'P2'
+    playerOneName = 'Player One',
+    playerTwoName = 'Player Two'
 ) {
     const board = Gameboard();
 
@@ -63,6 +63,10 @@ function GameController(
     ];
 
     let activePlayer = players[0];
+
+    function getPlayerName(index) {
+        return players[index].name
+    }
 
     const switchPlayerTurn = () => {
         activePlayer = activePlayer === players[0] ? players[1] : players[0];
@@ -150,15 +154,18 @@ function GameController(
         playRound,
         getActivePlayer,
         getBoard : board.getBoard,
-        getStatus
+        getStatus,
+        getPlayerName
     };
 }
 
 function ScreenController() {
-    const game = GameController('Bill', 'Kat');
+    var game = GameController();
     const playerTurnDiv = document.querySelector('.turn');
     const boardDiv = document.querySelector('.board');
     const resultsDiv = document.querySelector('.results');
+    const startBtn = document.querySelector('.startBtn');
+    const resetBtn = document.querySelector('.resetBtn');
 
     const updateScreen = () => {
         boardDiv.textContent = '';
@@ -196,12 +203,27 @@ function ScreenController() {
         if (currentStatus === '') {
             game.playRound(selectedRow,selectedColumn);
             updateScreen();
-        }
+        }   
+    }
 
+    function clickStartButton(e) {
+        const playerOne = prompt("Please enter player one's name.", 'Player One');
+        const playerTwo = prompt("Please enter player two's name.", 'Player Two');
+        game = GameController(playerOne, playerTwo);
+        updateScreen();
+        resultsDiv.textContent = '';
+    }
+
+    function clickResetButton(e) {
+        game = GameController(game.getPlayerName(0), game.getPlayerName(1));
+        updateScreen();
+        resultsDiv.textContent ='';
         
     }
 
     boardDiv.addEventListener('click', clickHandlerBoard);
+    startBtn.addEventListener('click', clickStartButton);
+    resetBtn.addEventListener('click', clickResetButton);
 
     updateScreen();
 }
